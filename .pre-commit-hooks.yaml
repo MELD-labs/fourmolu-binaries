@@ -1,0 +1,14 @@
+- id: hlint
+  name: hlint
+  description: HLint is a tool for suggesting possible improvements to Haskell code.
+  entry: github-artifact.sh ndmitchell hlint
+  language: script
+  files: '\.l?hs$'
+  stages: [commit]
+- id: fourmolu
+  name: fourmolu
+  description: Fourmolu is a formatter for Haskell source code.
+  entry: github-artifact.sh MELD-labs fourmolu --cabal-default-extensions --check-idempotence --mode inplace
+  language: script
+  files: '\.l?hs$'
+  stages: [commit]

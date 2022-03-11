@@ -54,6 +54,6 @@ jobs:
         with:
           name: Fourmolu ${{ env.FOURMOLU_VERSION }}
           draft: true
-          files: "*.zip"
+          files: "*.tar.gz"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

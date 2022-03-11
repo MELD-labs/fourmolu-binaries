@@ -3,9 +3,7 @@ name: Fourmolu Publish Binary CI
 on:
   push:
     tags:
-      - "*"
-    paths:
-      - .github/workflows/fourmolu.yml
+      - "fourmolu-*"
 
 env:
   FOURMOLU_VERSION: 0.5.0.1

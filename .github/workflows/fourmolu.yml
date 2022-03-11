@@ -1,51 +1,63 @@
 name: Fourmolu Publish Binary CI
 
 on:
-  pull_request:
   push:
     tags:
       - "*"
-  workflow_dispatch:
+    paths:
+      - .github/workflows/fourmolu.yml
+
+env:
+  FOURMOLU_VERSION: 0.5.0.1
 
 jobs:
   fourmolu:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            SUFFIX: x86_64-linux.tar.gz
+          - os: macOS-latest
+            SUFFIX: x86_64-osx.tar.gz
+
     steps:
-      - name: Setup Haskell
-        uses: haskell/actions/setup@v1
-        with:
-          ghc-version: "8.10.7"
-          cabal-version: "3.6.0.0"
+      # - name: Setup Haskell
+      #   uses: haskell/actions/setup@v1
 
-      - name: Cache
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-cabal
-          cache-version: v2
-        with:
-          path: |
-            ~/.cabal
-            dist-newstyle
-          key: ${{ env.cache-version }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cabal') }}-${{ hashFiles('**/cabal.project') }}
-          restore-keys: |
-            ${{ env.cache-version }}-${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ env.cache-version }}-${{ runner.os }}-build-
-            ${{ env.cache-version }}-${{ runner.os }}-
+      # - name: Cache
+      #   uses: actions/cache@v2
+      #   env:
+      #     cache-name: cache-cabal
+      #     cache-version: v2
+      #   with:
+      #     path: |
+      #       ~/.cabal
+      #       dist-newstyle
+      #     key: ${{ env.cache-version }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cabal') }}-${{ hashFiles('**/cabal.project') }}
+      #     restore-keys: |
+      #       ${{ env.cache-version }}-${{ runner.os }}-build-${{ env.cache-name }}-
+      #       ${{ env.cache-version }}-${{ runner.os }}-build-
+      #       ${{ env.cache-version }}-${{ runner.os }}-
 
-      - name: Checkout
-        uses: actions/checkout@v2
+      # - name: Install fourmolu
+      #   run: cabal install fourmolu-$FOURMOLU_VERSION --installdir=. --install-method=copy --overwrite-policy=always
 
-      - name: Install fourmolu
-        run: cabal install exe:fourmolu --installdir=. --install-method=copy --overwrite-policy=always
+      - run: touch fourmolu
 
       - name: Package
-        run: 7z a fourmolu-${{ github.ref_name }}-${{ runner.os }}.zip fourmolu
+        run: 7z a fourmolu-$FOURMOLU_VERSION-${{ matrix.SUFFIX }}.zip fourmolu
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          name: Fourmolu $FOURMOLU_VERSION
           draft: true
-          fail_on_unmatched_files: true
           files: "*.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

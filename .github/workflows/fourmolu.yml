@@ -7,7 +7,6 @@ on:
 
 env:
   FOURMOLU_VERSION: 0.5.0.1
-  FOURMOLU_FOLDER_NAME: fourmolu-binaries-$FOURMOLU_VERSION
 
 jobs:
   fourmolu:
@@ -45,10 +44,14 @@ jobs:
             ${{ env.cache-version }}-${{ runner.os }}-
 
       - name: Install fourmolu
-        run: cabal install fourmolu-${{ env.FOURMOLU_VERSION }} --installdir=./${{ env.FOURMOLU_FOLDER_NAME }} --install-method=copy --overwrite-policy=always
+        run: cabal install fourmolu-${{ env.FOURMOLU_VERSION }} --installdir=. --install-method=copy --overwrite-policy=always
 
       - name: Package
-        run: 7z a -tzip ${{ env.FOURMOLU_FOLDER_NAME }}-${{ matrix.SUFFIX }} ${{ env.FOURMOLU_FOLDER_NAME }}
+        run: |
+          mv fourmolu ${{ FOURMOLU_FOLDER_NAME }}/fourmolu-binaries
+          7z a -tzip ${{ FOURMOLU_FOLDER_NAME }}-${{ matrix.SUFFIX }} ${{ FOURMOLU_FOLDER_NAME }}
+        env:
+          FOURMOLU_FOLDER_NAME: fourmolu-binaries-${{ env.FOURMOLU_VERSION }}
 
       - name: Release
         uses: softprops/action-gh-release@v1

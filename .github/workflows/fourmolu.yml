@@ -48,8 +48,8 @@ jobs:
 
       - name: Package
         run: |
-          mv fourmolu ${{ FOURMOLU_FOLDER_NAME }}/fourmolu-binaries
-          7z a -tzip ${{ FOURMOLU_FOLDER_NAME }}-${{ matrix.SUFFIX }} ${{ FOURMOLU_FOLDER_NAME }}
+          mv fourmolu ${{ env.FOURMOLU_FOLDER_NAME }}/fourmolu-binaries
+          7z a -tzip ${{ env.FOURMOLU_FOLDER_NAME }}-${{ matrix.SUFFIX }} ${{ env.FOURMOLU_FOLDER_NAME }}
         env:
           FOURMOLU_FOLDER_NAME: fourmolu-binaries-${{ env.FOURMOLU_VERSION }}
 

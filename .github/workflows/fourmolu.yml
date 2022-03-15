@@ -47,7 +47,7 @@ jobs:
         run: cabal install fourmolu-${{ env.FOURMOLU_VERSION }} --installdir=. --install-method=copy --overwrite-policy=always
 
       - name: Package
-        run: 7z a fourmolu-${{ env.FOURMOLU_VERSION }}-${{ matrix.SUFFIX }} fourmolu
+        run: 7z a -tzip fourmolu-${{ env.FOURMOLU_VERSION }}-${{ matrix.SUFFIX }} fourmolu
 
       - name: Release
         uses: softprops/action-gh-release@v1

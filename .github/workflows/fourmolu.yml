@@ -50,7 +50,7 @@ jobs:
       - name: Package
         run: |
           mv ${{ env.FOURMOLU_FOLDER_NAME }}/fourmolu ${{ env.FOURMOLU_FOLDER_NAME }}/fourmolu-binaries
-          7z a -tzip ${{ env.FOURMOLU_FOLDER_NAME }}-${{ matrix.SUFFIX }} ${{ env.FOURMOLU_FOLDER_NAME }}
+          7z a ${{ env.FOURMOLU_FOLDER_NAME }}-${{ matrix.SUFFIX }} ${{ env.FOURMOLU_FOLDER_NAME }}
 
       - name: Release
         uses: softprops/action-gh-release@v1

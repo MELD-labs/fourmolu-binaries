@@ -48,9 +48,7 @@ jobs:
         run: cabal install fourmolu-${{ env.FOURMOLU_VERSION }} --installdir=./${{ env.FOURMOLU_FOLDER_NAME }} --install-method=copy --overwrite-policy=always
 
       - name: Package
-        run: |
-          mv ${{ env.FOURMOLU_FOLDER_NAME }}/fourmolu ${{ env.FOURMOLU_FOLDER_NAME }}/fourmolu-binaries
-          tar -czvf ${{ env.FOURMOLU_FOLDER_NAME }}-${{ matrix.SUFFIX }} ${{ env.FOURMOLU_FOLDER_NAME }}
+        run: tar -czvf ${{ env.FOURMOLU_FOLDER_NAME }}-${{ matrix.SUFFIX }} ${{ env.FOURMOLU_FOLDER_NAME }}
 
       - name: Release
         uses: softprops/action-gh-release@v1

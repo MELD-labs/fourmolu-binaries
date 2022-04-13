@@ -38,9 +38,8 @@ jobs:
           path: |
             ~/.cabal
             dist-newstyle
-          key: ${{ env.cache-version }}-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/*.cabal') }}-${{ hashFiles('**/cabal.project') }}
+          key: ${{ env.cache-version }}-${{ runner.os }}-build-${{ env.cache-name }}
           restore-keys: |
-            ${{ env.cache-version }}-${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ env.cache-version }}-${{ runner.os }}-build-
             ${{ env.cache-version }}-${{ runner.os }}-
 

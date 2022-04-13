@@ -6,7 +6,7 @@ on:
       - "fourmolu-*"
 
 env:
-  FOURMOLU_VERSION: 0.5.0.1
+  FOURMOLU_VERSION: 0.6.0.0
   FOURMOLU_FOLDER_NAME: fourmolu-binaries-$FOURMOLU_VERSION
 
 jobs:
